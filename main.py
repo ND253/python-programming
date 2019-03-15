@@ -1,9 +1,9 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-from networkx.drawing.nx_agraph import write_dot
 
 
 G = nx.DiGraph()
+
 
 def calculate_lists(user_input):
     """ Calculates the number of occurences of certain character in a string."""
@@ -44,12 +44,13 @@ def huffmann_algorithm(prob_list):
         new_value = int(first_minimum+second_minimum)
         prob_list.append(new_value)
     print("Finished: ", prob_list)
+    count = 0
     for i in node_list:
+        print(count)
         print("Nodes: ", tuple(i))
-        print("HALLO: ", i[0])
-        if i[0] == i[1]:
-            x = G.add_node(i[0])
-            G.add_edge(x, i[0]+i[1])
+        G.add_node(i[0])
+        G.add_node(i[1])
+        G.add_node(i[0]+i[1])
         G.add_edge(i[0], i[0]+i[1])
         G.add_edge(i[1], i[0]+i[1])
     print("Node list: ", node_list)
