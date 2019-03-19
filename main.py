@@ -27,10 +27,10 @@ def calculate_lists(user_input):
     print("Occurence list: ", occurence_list)
     print("Sorted list is: ", sorted_list)
     print("Probility list is: ", propability_list)
-    return huffmann_algorithm(propability_list)
+    return huffman_algorithm(propability_list)
 
 
-def huffmann_algorithm(prob_list):
+def huffman_algorithm(prob_list):
     node_list = []
     while len(prob_list) != 1:
         first_minimum = min(float(s) for s in prob_list)
@@ -44,24 +44,34 @@ def huffmann_algorithm(prob_list):
         new_value = int(first_minimum+second_minimum)
         prob_list.append(new_value)
     print("Finished: ", prob_list)
-    count = 0
+    labels = {}
+    edge_list = []
+    count = 1
     for i in node_list:
         print(count)
         print("Nodes: ", tuple(i))
-        G.add_node(i[0])
-        G.add_node(i[1])
-        G.add_node(i[0]+i[1])
-        G.add_edge(i[0], i[0]+i[1])
-        G.add_edge(i[1], i[0]+i[1])
+        labels[count] = i[0]
+        count += 1
+        labels[count] = i[1]
+        count += 1
+        labels[count] = i[0] + i[1]
+        edge_list.append((count-2, count))
+        edge_list.append((count-1, count))
     print("Node list: ", node_list)
-    print(G.nodes())
-    nx.draw(G, with_labels=True, arrows=False)
+    print("Edge List: ", edge_list)
+    G.add_nodes_from(labels.keys())
+    G.add_edges_from(edge_list)
+    print("Nodes: ", G.nodes())
+    pos = nx.spring_layout(G)
+    nx.draw(G, pos)
+    nx.draw_networkx_labels(G, pos, labels)
     plt.savefig("graph1.png")
     plt.show()
 
 
 def main():
-    user_input = str(input("Please enter a text: "))
+    #user_input = str(input("Please enter a text: "))
+    user_input ="aaaaabbbbcccdde"
     calculate_lists(user_input)
 
 
