@@ -1,6 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-
+import string
 
 G = nx.DiGraph()
 
@@ -50,17 +50,40 @@ def huffman_algorithm(prob_list):
     for i in node_list:
         print(count)
         print("Nodes: ", tuple(i))
-        labels[count] = i[0]
+        labels[count] = str(i[0])
         count += 1
-        labels[count] = i[1]
+        labels[count] = str(i[1])
         count += 1
-        labels[count] = i[0] + i[1]
+        labels[count] = str(i[0] + i[1])
         edge_list.append((count-2, count))
         edge_list.append((count-1, count))
     print("Node list: ", node_list)
     print("Edge List: ", edge_list)
+    values = list(labels.values())
+    print("values: ", values)
+    switch_labels = {y:x for x, y in labels.items()}
+    print("Labels: ", labels)
+    print("Switched: ", switch_labels)
+    print("element", node_list[3][1])
+    print("value: ", switch_labels[str(node_list[3][1])])
     G.add_nodes_from(labels.keys())
-    G.add_edges_from(edge_list)
+    for i in node_list:
+        print("i is", i)
+        x = switch_labels[str(i[0])]
+        print("x is", x)
+        y = switch_labels[str(i[1])]
+        print("y is", y)
+        G.add_edge(x, y)
+    """
+    G.add_edge(1, 3)
+    G.add_edge(2, 3)
+    G.add_edge(3, 7)
+    G.add_edge(4, 7)
+    G.add_edge(5, 8)
+    G.add_edge(6, 8)
+    G.add_edge(8, 9)
+    G.add_edge(7, 9)
+    """
     print("Nodes: ", G.nodes())
     pos = nx.spring_layout(G)
     nx.draw(G, pos)
